@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: activity
+  namespace: hds
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: rdomloge/hds-container
+            imagePullPolicy: Always
+            command:
+            - python3
+            - hds.py
+            volumeMounts:
+            - name: storage
+              mountPath: /hds-latest/activity
+            - name: logs
+              mountPath: /hds-latest/logs
+          restartPolicy: OnFailure
+          volumes:
+          - name: storage
+            persistentVolumeClaim:
+              claimName: storagepvc
+          - name: logs
+            persistentVolumeClaim:
+              claimName: storagepvc
