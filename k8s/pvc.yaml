@@ -1,7 +1,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: storagepvc
+  name: pvc
   namespace: hds
 spec:
   accessModes:
@@ -9,4 +9,4 @@ spec:
   storageClassName: standard
   resources:
     requests:
-      storage: 10Gi
+      storage: 5Gi

@@ -4,28 +4,25 @@ metadata:
   name: activity
   namespace: hds
 spec:
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
   schedule: "*/1 * * * *"
   jobTemplate:
     spec:
       template:
         spec:
           containers:
-          - name: hello
-            image: rdomloge/hds-container
-            imagePullPolicy: Always
+          - name: hds-report-activity
+            image: rdomloge/hds-container:v1
+            imagePullPolicy: IfNotPresent
             command:
             - python3
             - hds.py
             volumeMounts:
             - name: storage
               mountPath: /hds-latest/activity
-            - name: logs
-              mountPath: /hds-latest/logs
           restartPolicy: OnFailure
           volumes:
           - name: storage
             persistentVolumeClaim:
-              claimName: storagepvc
-          - name: logs
-            persistentVolumeClaim:
-              claimName: storagepvc
+              claimName: pvc
