@@ -1,14 +1,16 @@
-FROM ubuntu
+FROM ubuntu AS base
 
-RUN apt-get update 
-RUN apt-get install -y wget 
-RUN apt-get install -y unzip 
-RUN apt-get install -y pip
+RUN apt-get update && apt-get install -y wget unzip pip
 
-RUN wget https://github.com/co8/hds/archive/refs/heads/latest.zip
+RUN pip3 install discord-webhook
+
+FROM base
+# this is merely here to be changed on each build, so the previous steps can be cached,  
+# but this cannot, because we'll set it with a new value each time, in the build script
+ARG CACHEBUST=1 
+RUN wget --connect-timeout 5 --read-timeout 1 https://github.com/co8/hds/archive/refs/heads/latest.zip
 RUN unzip latest.zip
 WORKDIR hds-latest
-RUN pip3 install discord-webhook
 
 RUN rm new-activity_history.json
 

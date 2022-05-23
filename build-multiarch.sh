@@ -1,0 +1,1 @@
+docker buildx build --build-arg CACHEBUST=$(date +%s) --platform linux/amd64,linux/arm64 -t rdomloge/hds-container:v1.5 . --push
