@@ -4,8 +4,8 @@ metadata:
   name: hds-trawler
   namespace: hds
 spec:
-  successfulJobsHistoryLimit: 3
-  failedJobsHistoryLimit: 3
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
   schedule: "*/1 * * * *"
   jobTemplate:
     spec:
@@ -13,7 +13,7 @@ spec:
         spec:
           containers:
           - name: hds-report-activity
-            image: rdomloge/hds-container:v1.2
+            image: rdomloge/hds-container:v1.5
             imagePullPolicy: IfNotPresent
             command:
             - python3
